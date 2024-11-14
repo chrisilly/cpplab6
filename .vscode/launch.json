@@ -14,8 +14,7 @@
             "cwd": "${fileDirname}",
             "environment": [],
             "console": "integratedTerminal",
-            "preLaunchTask": "C/C++: cl.exe build all files"
-        },
-        
+            "preLaunchTask": "C/C++: cl.exe build all workspace files"
+        }
     ]
 }
