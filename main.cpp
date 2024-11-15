@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <bitset>
 
 // using namespace std;
 
@@ -23,9 +24,9 @@ int main()
     cout << "---------------------------------" << endl;
 }
 
-Interpreter::Interpreter(ostream& out_stream) : out_stream(out_stream), position(0) {}
+Interpreter::Interpreter(ostream& out_stream) : config(Config::dec), out_stream(out_stream), position(0) {}
 
-void Interpreter::interpret(string fileName)
+void Interpreter::interpret(string& fileName)
 {
     // 1. get a vector<string> for each line containing all its tokens
     ifstream source(fileName);
@@ -53,12 +54,6 @@ void Interpreter::interpret(string fileName)
 void Interpreter::evaluate(const std::vector<std::string>& tokens)
 {
     parse_Statement();
-
-    // Consume all remaining tokens
-    // for (int i = position; i < tokens.size(); i++)
-    // {
-    //     consume(tokens.at(i));
-    // }
 }
 
 void Interpreter::consume(const string& token)
@@ -107,18 +102,18 @@ void Interpreter::parse_ConfigStatement()
 
     if(next_token == "dec")
     {
-        // change to base ten
-        cout << "dec" << endl;
+        config = Config::dec;
+        cout << "decimal" << endl;
     }
     else if(next_token == "hex")
     {
-        // change to base 16
-        cout << "hex" << endl;
+        config = Config::hex;
+        cout << "hexadecimal" << endl;
     }
     else if(next_token == "bin")
     {
-        // change to base 2 (binary)
-        cout << "bin" << endl;
+        config = Config::binary;
+        cout << "binary" << endl;
     }
     else
         throw runtime_error("Expected dec, hex or bin\n");
@@ -130,7 +125,20 @@ void Interpreter::parse_PrintStatement()
 {
     consume("print");
 
-    out_stream << parse_MathExpression() << endl;
+    switch (config)
+    {
+    case Config::binary:
+        out_stream << bitset<16>(parse_MathExpression()).to_string();
+        break;
+    case Config::hex:
+        out_stream << std::hex << showbase << parse_MathExpression();
+        break;
+    default:
+        out_stream << parse_MathExpression();
+        break;
+    }
+
+    out_stream << endl;
 }
 
 void Interpreter::parse_AssgStatement()

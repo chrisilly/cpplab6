@@ -2,10 +2,14 @@
 #include <vector>
 #include <unordered_map>
 
+enum Config { dec, hex, binary };
+
 class Interpreter
 {
+Config config;
 std::ostream& out_stream;
 std::unordered_map<std::string, int> variables;
+
 std::vector<std::string> tokens;
 int position;
 const std::string ETX = "\u0003";
@@ -15,7 +19,7 @@ public:
 
     void evaluate(const std::vector<std::string>& tokens);
 
-    void interpret(std::string fileName);
+    void interpret(std::string& fileName);
 
     void parse_Statement();
     void parse_ConfigStatement();
@@ -25,7 +29,6 @@ public:
     int parse_SumExpression();
     int parse_ProductExpression();
     int parse_PrimaryExpression();
-    std::string parse_Variable();
     int parse_Int();
 
     std::string peek();
