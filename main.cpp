@@ -1,6 +1,7 @@
 #include "interpreter.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <regex>
@@ -34,22 +35,28 @@ void Interpreter::interpret(string fileName)
 
     while(getline(source, myText))
     {
-        cout << myText << endl;        
+        // cout << myText << endl;
+
+        vector<string> tokens;
+
+        istringstream line(myText);
+        string token;
 
         // Separate the tokens in the current line (myText) of the file
-        regex regex("\\s+");
-        sregex_token_iterator iterator(myText.begin(), myText.end(), regex, -1);
-        sregex_token_iterator end;
-        vector<string> tokens(iterator, end);
+        while (line >> token)
+        {
+            tokens.push_back(token);
+        }
         
         // 2. call evaluate()
         evaluate(tokens);
     }
-
 }
 
 void Interpreter::evaluate(const std::vector<std::string>& tokens)
 {
     for(auto token : tokens)
         cout << token << endl;
+
+    cout << "---" << endl;
 }
