@@ -130,10 +130,116 @@ void Interpreter::parse_PrintStmt()
 {
     consume("print");
 
-    out_stream << parse_MathExp() << endl;
+    out_stream << parse_MathExpression() << endl;
 }
 
 void Interpreter::parse_AssgStmt()
 {
     cout << "assign parsed" << endl;
+}
+
+int Interpreter::parse_MathExpression()
+{
+    return parse_SumExpression();
+}
+
+int Interpreter::parse_SumExpression()
+{
+    int result = parse_ProductExpression();
+
+    string next_token = peek();
+
+    while(1)
+    {
+        if(next_token == "+")
+        {
+            consume("+");
+            int newTerm = parse_ProductExpression();
+            result = result + newTerm;
+        }
+        else if(next_token == "-")
+        {
+            consume("-");
+            int newTerm = parse_ProductExpression();
+            result = result - newTerm;
+        }
+        else
+            break;
+
+        next_token = peek();
+    }
+
+    return result;
+}
+
+int Interpreter::parse_ProductExpression()
+{
+    int result = parse_PrimaryExpression();
+
+    string next_token = peek();
+
+    while(1)
+    {
+        if(next_token == "*")
+        {
+            consume("*");
+            int newTerm = parse_PrimaryExpression();
+            result = result * newTerm;
+        }
+        else if(next_token == "/")
+        {
+            consume("/");
+            int newTerm = parse_PrimaryExpression();
+            result = result / newTerm;
+        }
+        else
+            break;
+
+        next_token = peek();
+    }
+
+    return result;
+}
+
+int Interpreter::parse_PrimaryExpression()
+{
+    int value;
+    string next_token = peek();
+
+    // check regex matching
+    bool isInt = regex_match(next_token, regex("-?[0-9]+"));
+    bool isVariable = regex_match(next_token, regex("[a-zA-Z][a-zA-Z0-9]*"));
+
+    if(isInt)
+    {
+        value = parse_Int();
+    }
+    else if(isVariable)
+    {
+        // value = parse_Variable();
+    }
+    else if(next_token == "(")
+    {
+        consume("(");
+
+        value = parse_MathExpression();
+
+        if(peek() == ")")
+            consume(")");
+        else
+            throw runtime_error("Expected: )\n");
+    }
+    else
+        throw runtime_error("Expected Int, Variable or MathExpression\n");
+
+    return value;
+}
+
+int Interpreter::parse_Int()
+{
+    string next_token = peek();
+    int value = stoi(next_token);
+    consume(next_token);
+
+    return value;
 }

@@ -19,12 +19,12 @@ public:
     void parse_ConfigStmt();
     void parse_AssgStmt();
     void parse_PrintStmt();
-    void parse_MathExp();
-    void parse_SumExp();
-    void parse_ProductExp();
-    void parse_PrimaryExp();
-    void parse_Variable();
-    void parse_Int();
+    int parse_MathExpression();
+    int parse_SumExpression();
+    int parse_ProductExpression();
+    int parse_PrimaryExpression();
+    int parse_Variable();
+    int parse_Int();
 
     std::string peek();
     std::string peek(int steps);
