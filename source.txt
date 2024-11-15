@@ -1,6 +1,12 @@
-config dec
-config hex
 config bin
+config hex
+config dec
 print 6
 print 2 + 1
 print 1 + 5 * 2
+x = 2 - -2
+y = x
+z = y * ( 16 / ( y - 2 ) )
+print x
+print y
+print z
