@@ -1,5 +1,5 @@
-!*lab-report*.pdf
 *.pdf
+!*lab-report*.pdf
 
 # Prerequisites
 *.d
