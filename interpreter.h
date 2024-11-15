@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 class Interpreter
 {
 std::ostream& out_stream;
+std::unordered_map<std::string, int> variables;
 std::vector<std::string> tokens;
 int position;
 const std::string ETX = "\u0003";
@@ -23,7 +25,7 @@ public:
     int parse_SumExpression();
     int parse_ProductExpression();
     int parse_PrimaryExpression();
-    int parse_Variable();
+    std::string parse_Variable();
     int parse_Int();
 
     std::string peek();

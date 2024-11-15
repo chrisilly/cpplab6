@@ -10,7 +10,7 @@
 
 using namespace std;
 
-string fileName = "source.txt";
+string fileName = "example-source.txt";
 
 int main()
 {
@@ -135,7 +135,21 @@ void Interpreter::parse_PrintStatement()
 
 void Interpreter::parse_AssgStatement()
 {
-    cout << "assign parsed" << endl;
+    string name = peek();
+    int value;
+
+    consume(name);
+    string next_token = peek();
+
+    if(next_token == "=")
+    {
+        consume("=");
+        value = parse_MathExpression();
+    }
+    else
+        throw runtime_error("Expected: =\n");
+
+    variables[name] = value;
 }
 
 int Interpreter::parse_MathExpression()
@@ -216,7 +230,11 @@ int Interpreter::parse_PrimaryExpression()
     }
     else if(isVariable)
     {
-        // value = parse_Variable();
+        consume(next_token);
+        if(variables.find(next_token) == variables.end())
+            throw runtime_error("Undefined variable\n");
+
+        value = variables[next_token];
     }
     else if(next_token == "(")
     {
