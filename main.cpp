@@ -90,7 +90,7 @@ void Interpreter::parse_Statement()
     else if(next_token == "print")
         parse_PrintStatement();
     else
-        parse_AssgStatement();
+        parse_AssignStatement();
 }
 
 void Interpreter::parse_ConfigStatement()
@@ -141,7 +141,7 @@ void Interpreter::parse_PrintStatement()
     out_stream << endl;
 }
 
-void Interpreter::parse_AssgStatement()
+void Interpreter::parse_AssignStatement()
 {
     string name = peek();
     int value;

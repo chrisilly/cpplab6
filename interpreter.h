@@ -23,7 +23,7 @@ public:
 
     void parse_Statement();
     void parse_ConfigStatement();
-    void parse_AssgStatement();
+    void parse_AssignStatement();
     void parse_PrintStatement();
     int parse_MathExpression();
     int parse_SumExpression();
