@@ -3,6 +3,7 @@
 
 class Interpreter
 {
+std::ostream& out_stream;
 std::vector<std::string> tokens;
 int position;
 const std::string ETX = "\u0003";

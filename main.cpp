@@ -23,7 +23,7 @@ int main()
     cout << "---------------------------------" << endl;
 }
 
-Interpreter::Interpreter(ostream& out_stream) : position(0) {}
+Interpreter::Interpreter(ostream& out_stream) : out_stream(out_stream), position(0) {}
 
 void Interpreter::interpret(string fileName)
 {
@@ -121,7 +121,7 @@ void Interpreter::parse_ConfigStmt()
         cout << "bin" << endl;
     }
     else
-        throw runtime_error("Invalid config argument.\n");
+        throw runtime_error("Expected dec, hex or bin\n");
 
     consume(next_token);
 }
@@ -130,11 +130,7 @@ void Interpreter::parse_PrintStmt()
 {
     consume("print");
 
-    // Evaluate MathExp
-
-
-
-    cout << "print parsed" << endl;
+    out_stream << parse_MathExp() << endl;
 }
 
 void Interpreter::parse_AssgStmt()
