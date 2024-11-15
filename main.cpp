@@ -52,7 +52,7 @@ void Interpreter::interpret(string fileName)
 
 void Interpreter::evaluate(const std::vector<std::string>& tokens)
 {
-    parse_Stmt();
+    parse_Statement();
 
     // Consume all remaining tokens
     // for (int i = position; i < tokens.size(); i++)
@@ -86,19 +86,19 @@ std::string Interpreter::peek(int steps)
     return tokens[position + steps];
 }
 
-void Interpreter::parse_Stmt()
+void Interpreter::parse_Statement()
 {
     string next_token = peek();
 
     if(next_token == "config")
-        parse_ConfigStmt();
+        parse_ConfigStatement();
     else if(next_token == "print")
-        parse_PrintStmt();
+        parse_PrintStatement();
     else
-        parse_AssgStmt();
+        parse_AssgStatement();
 }
 
-void Interpreter::parse_ConfigStmt()
+void Interpreter::parse_ConfigStatement()
 {
     consume("config");
     string next_token = peek();
@@ -126,14 +126,14 @@ void Interpreter::parse_ConfigStmt()
     consume(next_token);
 }
 
-void Interpreter::parse_PrintStmt()
+void Interpreter::parse_PrintStatement()
 {
     consume("print");
 
     out_stream << parse_MathExpression() << endl;
 }
 
-void Interpreter::parse_AssgStmt()
+void Interpreter::parse_AssgStatement()
 {
     cout << "assign parsed" << endl;
 }

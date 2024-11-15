@@ -15,10 +15,10 @@ public:
 
     void interpret(std::string fileName);
 
-    void parse_Stmt();
-    void parse_ConfigStmt();
-    void parse_AssgStmt();
-    void parse_PrintStmt();
+    void parse_Statement();
+    void parse_ConfigStatement();
+    void parse_AssgStatement();
+    void parse_PrintStatement();
     int parse_MathExpression();
     int parse_SumExpression();
     int parse_ProductExpression();
